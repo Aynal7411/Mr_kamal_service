@@ -17,7 +17,7 @@ const app = express();
 
 app.use(helmet());
 app.use(cors({
-  origin: process.env.https://kamalhosain.netlify.app/,
+  origin: process.env.FRONTEND_URL || 'https://kamalhosain.netlify.app',
   credentials: true
 }));
 app.use(express.json());
