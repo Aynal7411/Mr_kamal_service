@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import Navbar from './components/layout/Navbar';
@@ -11,6 +11,13 @@ import ServicesPage from './pages/Services/ServicesPage';
 import GalleryPage from './pages/Gallery/GalleryPage';
 import BlogPage from './pages/Blog/BlogPage';
 import ContactPage from './pages/Contact/ContactPage';
+import DashboardPage from './pages/Dashboard/DashboardPage';
+import ProductsManager from './pages/Dashboard/ProductsManager';
+import BlogsManager from './pages/Dashboard/BlogsManager';
+import GalleryManager from './pages/Dashboard/GalleryManager';
+import MessagesManager from './pages/Dashboard/MessagesManager';
+import ProfileManager from './pages/Dashboard/ProfileManager';
+import LoginPage from './pages/Dashboard/LoginPage';
 import NotFound from './pages/NotFound';
 import WhatsAppButton from './components/common/WhatsAppButton';
 
@@ -38,6 +45,11 @@ const translations = {
     ctaSecondary: 'এখনই যোগাযোগ করুন'
   }
 };
+
+function ProtectedRoute({ children }) {
+  const token = localStorage.getItem('token');
+  return token ? children : <Navigate to="/login" replace />;
+}
 
 function App() {
   const [theme, setTheme] = useState('light');
@@ -72,6 +84,13 @@ function App() {
           <Route path="/gallery" element={<GalleryPage lang={lang} />} />
           <Route path="/blog" element={<BlogPage lang={lang} />} />
           <Route path="/contact" element={<ContactPage lang={lang} />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/dashboard" element={<ProtectedRoute><DashboardPage /></ProtectedRoute>} />
+          <Route path="/dashboard/products" element={<ProtectedRoute><ProductsManager /></ProtectedRoute>} />
+          <Route path="/dashboard/blogs" element={<ProtectedRoute><BlogsManager /></ProtectedRoute>} />
+          <Route path="/dashboard/gallery" element={<ProtectedRoute><GalleryManager /></ProtectedRoute>} />
+          <Route path="/dashboard/messages" element={<ProtectedRoute><MessagesManager /></ProtectedRoute>} />
+          <Route path="/dashboard/profile" element={<ProtectedRoute><ProfileManager /></ProtectedRoute>} />
           <Route path="*" element={<NotFound lang={lang} />} />
         </Routes>
       </main>
