@@ -16,7 +16,10 @@ dotenv.config();
 const app = express();
 
 app.use(helmet());
-app.use(cors());
+app.use(cors({
+  origin: process.env.https://kamalhosain.netlify.app/,
+  credentials: true
+}));
 app.use(express.json());
 app.use(morgan('dev'));
 
